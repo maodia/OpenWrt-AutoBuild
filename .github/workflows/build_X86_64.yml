@@ -12,12 +12,9 @@ name: Lean-OpenWrt-CI
 on:
   # Trigger the workflow on push or pull request,
   # but only for the master branch
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+  #push:
+  #  branches:
+  #    - master
   
   # UTC 12:00 (UTC+8 20:00),every friday
   schedule:
@@ -67,15 +64,8 @@ jobs:
         env:
             CUSTOM_CONFIG_FILE: 'myconfig.diff'
         run: |
-          [ -e $CUSTOM_CONFIG_FILE ] && mv $CUSTOM_CONFIG_FILE ./.config
+          [ -e $CUSTOM_CONFIG_FILE ] && mv $CUSTOM_CONFIG_FILE ./openwrt/.config
           cd openwrt && make defconfig
-
-      - name: Make download
-        working-directory: ./openwrt
-        run: |
-          make download -j$(nproc)
-          find dl -size -1024c -exec ls -l {} \;
-          find dl -size -1024c -exec rm -f {} \;
 
       - name: Compile firmware
         working-directory: ./openwrt
