@@ -12,9 +12,9 @@ name: Lean-OpenWrt-CI
 on:
   # Trigger the workflow on push or pull request,
   # but only for the master branch
-  push:
-    branches:
-      - master
+  #push:
+  #  branches:
+  #    - master
   
   # UTC 12:00 (UTC+8 20:00),every friday
   schedule:
@@ -67,7 +67,14 @@ jobs:
           [ -e $CUSTOM_CONFIG_FILE ] && mv $CUSTOM_CONFIG_FILE ./openwrt/.config
           cd openwrt && make defconfig
 
-      
+      - name: Compile firmware
+        working-directory: ./openwrt
+        run: |
+          make -j$(nproc) || make -j1 V=s
+          echo "======================="
+          echo "Space usage:"
+          echo "======================="
+          df -h
 
       - name: Run custom command after compile
         env:
@@ -79,4 +86,8 @@ jobs:
         run: |
           find ./openwrt/bin/targets/ -type d -name "packages" | xargs rm -rf {}
 
-      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Lean-OpenWrt-x64
+          path: ./openwrt/bin/targets/x86/64
