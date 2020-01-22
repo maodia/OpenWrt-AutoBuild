@@ -12,9 +12,9 @@ name: Lean-OpenWrt-CI
 on:
   # Trigger the workflow on push or pull request,
   # but only for the master branch
-  #push:
-  #  branches:
-  #    - master
+  push:
+    branches:
+      - master
   
   # UTC 12:00 (UTC+8 20:00),every friday
   schedule:
