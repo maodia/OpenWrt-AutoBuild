@@ -12,13 +12,15 @@ name: Lean-OpenWrt-CI
 on:
   # Trigger the workflow on push or pull request,
   # but only for the master branch
-  push:
-    branches:
-      - master
+  #push:
+    #branches:
+      #- master
   
   # UTC 12:00 (UTC+8 20:00),every friday
-  schedule:
-    - cron: 0 12 * * 5
+  #schedule:
+    #- cron: 0 12 1 1 *
+  watch:
+    types: [started]
 
 jobs:
 
@@ -85,6 +87,7 @@ jobs:
       - name: Prepare artifact
         run: |
           find ./openwrt/bin/targets/ -type d -name "packages" | xargs rm -rf {}
+          find ./openwrt/bin/targets/ -type f -name "*.img" | xargs rm -rf 
 
       - name: Upload artifact
         uses: actions/upload-artifact@v1
