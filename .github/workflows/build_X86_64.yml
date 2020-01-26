@@ -17,10 +17,10 @@ on:
       #- master
   
   # UTC 12:00 (UTC+8 20:00),every friday
-  #schedule:
-    #- cron: 0 12 1 1 *
-  watch:
-    types: [started]
+  schedule:
+    - cron: 0 12 1 1 *
+  #watch:
+    #types: [started]
 
 jobs:
 
