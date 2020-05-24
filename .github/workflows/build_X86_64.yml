@@ -81,8 +81,8 @@ jobs:
           echo "Space usage:"
           echo "======================="
           df -h
-          #make -j8 download V=s
-          #make -j$(nproc) || make -j1 V=s
+          make -j8 download V=s
+          make -j$(nproc) || make -j1 V=s
           echo "======================="
           echo "Space usage:"
           echo "======================="
