@@ -73,6 +73,7 @@ jobs:
         run: |
           #[ -e $CUSTOM_CONFIG_FILE ] && mv $CUSTOM_CONFIG_FILE ./openwrt/.config
           #cd openwrt && make defconfig
+          cd openwrt
           make defconfig
 
       - name: Compile firmware
