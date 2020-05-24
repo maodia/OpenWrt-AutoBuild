@@ -26,11 +26,11 @@ jobs:
 
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
         with:
           ref: master
 
@@ -38,6 +38,11 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
+          df -h
+          docker rmi `docker images -q`
+          sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d
+          sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
+          df -h
           sudo -E apt-get update
           sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3.5 python2.7 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf          
           sudo -E apt-get -y autoremove --purge
@@ -55,7 +60,7 @@ jobs:
         run: |
           ./scripts/feeds update -a
           ./scripts/feeds install -a
-
+          df -h
       - name: Run custom command before compile
         env:
           BEFORE_SCRIPT: 'customize_before_compile.sh'		  
@@ -72,8 +77,12 @@ jobs:
       - name: Compile firmware
         working-directory: ./openwrt
         run: |
-          make -j8 download V=s
-          make -j$(nproc) || make -j1 V=s
+          echo "======================="
+          echo "Space usage:"
+          echo "======================="
+          df -h
+          #make -j8 download V=s
+          #make -j$(nproc) || make -j1 V=s
           echo "======================="
           echo "Space usage:"
           echo "======================="
