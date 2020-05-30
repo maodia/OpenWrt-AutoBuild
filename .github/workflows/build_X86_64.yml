@@ -59,7 +59,9 @@ jobs:
         working-directory: ./openwrt
         run: |
           sed -i 's/#src-git/src-git/g' ./feeds.conf.default
-          echo "====feeds.conf.default===="
+          echo "=========================="
+          echo "feeds.conf.default"
+          echo "=========================="
           cat ./feeds.conf.default
           echo "=========================="
           ./scripts/feeds update -a
@@ -85,8 +87,8 @@ jobs:
           echo "Space usage:"
           echo "======================="
           df -h
-          #make -j8 download V=s
-          #make -j$(nproc) || make -j1 V=s
+          make -j8 download V=s
+          make -j$(nproc) || make -j1 V=s
           echo "======================="
           echo "Space usage:"
           echo "======================="
